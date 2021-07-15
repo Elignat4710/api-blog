@@ -5,16 +5,24 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AuthLoginRequest;
 use App\Http\Requests\AuthRegisterRequest;
 use App\Models\User;
+use App\Repository\Interfaces\UserRepositoryInterface;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function __construct()
+    protected $userRep;
+
+    public function __construct(UserRepositoryInterface $userRep)
     {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
+
+        $this->userRep = $userRep;
     }
 
-    public function login(AuthLoginRequest $request)
+    public function login(AuthLoginRequest $request) : JsonResponse
     {
         $validator = $request->validated();
 
@@ -22,22 +30,35 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
+        if (!auth()->user()->hasVerifiedEmail()) {
+            return response()->json(['message' => 'Confirmed email']);
+        }
+
         return $this->respondWithToken($token);
     }
 
-    public function register(AuthRegisterRequest $request)
+    public function register(AuthRegisterRequest $request) : JsonResponse
     {
         $validator = $request->validated();
 
-        $user = User::create(array_merge(
+        $user = $this->userRep->create(array_merge(
             $validator,
             ['password' => bcrypt($request->password)]
         ));
 
+        event(new Registered($user));
+
         return response()->json(['message' => 'User created successfully', 'user' => $user]);
     }
 
-    protected function respondWithToken($token)
+    public function logout() : JsonResponse
+    {
+        auth()->logout();
+
+        return response()->json(['message' => "Successfully logged out"]);
+    }
+
+    protected function respondWithToken($token) : JsonResponse
     {
         return response()->json([
             'access_token' => $token,

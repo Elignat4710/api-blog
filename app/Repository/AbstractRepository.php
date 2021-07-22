@@ -4,6 +4,8 @@
 namespace App\Repository;
 
 
+use PHPUnit\Exception;
+
 class AbstractRepository
 {
     protected $model;
@@ -20,7 +22,7 @@ class AbstractRepository
         }
     }
 
-    public function find (int $id)
+    public function find(int $id)
     {
         return $this->model->find($id);
     }
@@ -33,5 +35,10 @@ class AbstractRepository
     public function select(string $string)
     {
         return $this->model->select($string);
+    }
+
+    public function updateWithoutLoading(int $id, array $options)
+    {
+        return $this->model->where('id', $id)->update($options);
     }
 }

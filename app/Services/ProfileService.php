@@ -5,27 +5,37 @@ namespace App\Services;
 
 
 use App\Http\Resources\ProfileResource;
+use App\Repository\Interfaces\FileRepositoryInterface;
 use App\Repository\Interfaces\UserRepositoryInterface;
 use App\Services\Interfaces\ProfileServiceInterface;
 
 class ProfileService implements ProfileServiceInterface
 {
     protected $userRepository;
+    protected $fileRepository;
 
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(
+        UserRepositoryInterface $userRepository,
+        FileRepositoryInterface $fileRepository
+    )
     {
         $this->userRepository = $userRepository;
+        $this->fileRepository = $fileRepository;
     }
 
     public function findProfile(int $id)
     {
-        $profileResources = new ProfileResource($this->userRepository->find($id));
+        $user = $this->userRepository->find($id);
 
-        return $profileResources ?? response()->json(['message' => 'Not find profile with this id'], 404);
+        return isset($user) ? new ProfileResource($user) : null;
     }
 
-    public function updateAvatarProfile(array $options)
+    public function updateAvatarProfile($file)
     {
-        // TODO: Implement updateAvatarProfile() method.
+        $file = $this->fileRepository->create([
+            'name' => $file['file']->store('avatars', 'public')
+        ]);
+
+        return $this->userRepository->updateWithoutLoading(auth()->user()->id, ['file_id' => $file->id]);
     }
 }

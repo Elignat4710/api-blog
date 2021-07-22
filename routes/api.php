@@ -39,5 +39,6 @@ Route::group([
 ], function () {
     Route::get('/', [\App\Http\Controllers\ProfileController::class, 'myProfile']);
     Route::put('update-avatar', [\App\Http\Controllers\ProfileController::class, 'updateAvatar']);
+    Route::get('show/{id}', [\App\Http\Controllers\ProfileController::class, 'showAnyProfile']);
 });
 

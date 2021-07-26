@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Services\CommentService;
+use App\Services\Interfaces\CommentServiceInterface;
+use App\Services\Interfaces\PostServiceInterface;
 use App\Services\Interfaces\ProfileServiceInterface;
+use App\Services\PostService;
 use App\Services\ProfileService;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,6 +22,16 @@ class ServiceRepositoryProvider extends ServiceProvider
         $this->app->bind(
             ProfileServiceInterface::class,
             ProfileService::class
+        );
+
+        $this->app->bind(
+            PostServiceInterface::class,
+            PostService::class
+        );
+
+        $this->app->bind(
+            CommentServiceInterface::class,
+            CommentService::class
         );
     }
 

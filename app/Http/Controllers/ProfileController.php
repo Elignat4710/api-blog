@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FileRequest;
 use App\Services\Interfaces\ProfileServiceInterface;
-use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {

@@ -42,3 +42,20 @@ Route::group([
     Route::get('show/{id}', [\App\Http\Controllers\ProfileController::class, 'showAnyProfile']);
 });
 
+Route::group([
+    'prefix' => 'post',
+    'middleware' => 'api'
+], function () {
+    Route::get('/', [\App\Http\Controllers\PostController::class, 'allPost']);
+    Route::post('/', [\App\Http\Controllers\PostController::class, 'store']);
+    Route::get('/{id}', [\App\Http\Controllers\PostController::class, 'show']);
+    Route::put('/update/{id}', [\App\Http\Controllers\PostController::class, 'update']);
+});
+
+Route::group([
+    'prefix' => 'comment',
+    'middleware' => 'api'
+], function () {
+    Route::post('/create', [\App\Http\Controllers\CommentController::class, 'create']);
+});
+

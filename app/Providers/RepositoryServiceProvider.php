@@ -2,9 +2,15 @@
 
 namespace App\Providers;
 
+use App\Repository\CategoryRepository;
+use App\Repository\CommentRepository;
 use App\Repository\FileRepository;
+use App\Repository\Interfaces\CategoryRepositoryInterface;
+use App\Repository\Interfaces\CommentRepositoryInterface;
 use App\Repository\Interfaces\FileRepositoryInterface;
+use App\Repository\Interfaces\PostRepositoryInterface;
 use App\Repository\Interfaces\UserRepositoryInterface;
+use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,6 +31,21 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             FileRepositoryInterface::class,
             FileRepository::class
+        );
+
+        $this->app->bind(
+            CommentRepositoryInterface::class,
+            CommentRepository::class
+        );
+
+        $this->app->bind(
+            PostRepositoryInterface::class,
+            PostRepository::class
+        );
+
+        $this->app->bind(
+            CategoryRepositoryInterface::class,
+            CategoryRepository::class
         );
     }
 }

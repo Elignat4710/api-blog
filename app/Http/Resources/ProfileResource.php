@@ -19,8 +19,8 @@ class ProfileResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'file_name' => $this->file->name ?? null,
-            'posts' => PostResource::collection($this->posts),
-            'count_post' => $this->posts->count()
+            'posts' => PostForProfileResource::collection($this->posts),
+            'count_posts' => $this->posts->count()
         ];
     }
 }

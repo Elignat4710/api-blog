@@ -41,4 +41,26 @@ class AbstractRepository
     {
         return $this->model->where('id', $id)->update($options);
     }
+
+    public function getAllRecords()
+    {
+        return $this->model->all();
+    }
+
+    public function paginate(int $paginateCount)
+    {
+        return $this->model->paginate($paginateCount);
+    }
+
+    public function firstOrCreate(array $options)
+    {
+        return $this->model->firstOrCreate($options);
+    }
+
+    public function save($model)
+    {
+        $model->update();
+
+        return $model->refresh();
+    }
 }

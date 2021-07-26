@@ -25,7 +25,8 @@ class PostFactory extends Factory
         return [
             'title' => $this->faker->sentence,
             'body' => $this->faker->paragraph,
-            'user_id' => 2
+            'user_id' => 1,
+            'category_id' => 1
         ];
     }
 }

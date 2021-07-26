@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Repository\Interfaces\UserRepositoryInterface;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\Request;

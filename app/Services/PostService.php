@@ -3,6 +3,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\GetAllPostResource;
 use App\Http\Resources\PostResource;
 use App\Repository\Interfaces\CategoryRepositoryInterface;
 use App\Repository\Interfaces\PostRepositoryInterface;
@@ -24,7 +25,28 @@ class PostService implements PostServiceInterface
 
     public function getAllPosts(int $paginateCount)
     {
-        return PostResource::collection($this->postRepository->paginate($paginateCount));
+        return GetAllPostResource::collection($this->postRepository->paginate($paginateCount));
+    }
+
+    public function myPost(int $paginateCount)
+    {
+        return GetAllPostResource::collection(
+            $this->postRepository->myPost()->paginate($paginateCount)
+        );
+    }
+
+    public function postsWithoutComments(int $paginateCount)
+    {
+        return GetAllPostResource::collection(
+            $this->postRepository->postsWithoutComments()->paginate($paginateCount)
+        );
+    }
+
+    public function mostViewPosts(int $paginateCount)
+    {
+        return GetAllPostResource::collection(
+            $this->postRepository->mostViewPost()->paginate($paginateCount)
+        );
     }
 
     public function createPost(array $options)

@@ -23,4 +23,25 @@ class PostRepository extends AbstractRepository implements PostRepositoryInterfa
 
         return $post;
     }
+
+    public function myPost()
+    {
+        $this->model = Post::where('user_id', auth()->user()->id);
+
+        return $this;
+    }
+
+    public function postsWithoutComments()
+    {
+        $this->model = Post::doesntHave('comments');
+
+        return $this;
+    }
+
+    public function mostViewPost()
+    {
+        $this->model = Post::orderBy('views', 'desc');
+
+        return $this;
+    }
 }

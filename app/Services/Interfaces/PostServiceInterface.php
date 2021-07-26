@@ -13,4 +13,10 @@ interface PostServiceInterface
     public function showPost(int $id);
 
     public function updatePost(array $options, int $id);
+
+    public function myPost(int $paginateCount);
+
+    public function postsWithoutComments(int $paginateCount);
+
+    public function mostViewPosts(int $paginateCount);
 }

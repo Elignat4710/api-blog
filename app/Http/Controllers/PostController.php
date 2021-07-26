@@ -14,7 +14,7 @@ class PostController extends Controller
     public function __construct(PostServiceInterface $postService)
     {
         $this->postService = $postService;
-        $this->middleware('auth:api', ['except' => ['allPost', 'show']]);
+        $this->middleware('auth:api', ['except' => ['allPost', 'show', 'postWithoutComments']]);
     }
 
     public function allPost()
@@ -24,7 +24,17 @@ class PostController extends Controller
 
     public function myPost ()
     {
+        return $this->postService->myPost(self::PAGINATE_COUNT);
+    }
 
+    public function postWithoutComments()
+    {
+        return $this->postService->postsWithoutComments(self::PAGINATE_COUNT);
+    }
+
+    public function mostViewPosts()
+    {
+        return $this->postService->mostViewPosts(self::PAGINATE_COUNT);
     }
 
     public function store(PostRequest $request)

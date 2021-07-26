@@ -47,6 +47,9 @@ Route::group([
     'middleware' => 'api'
 ], function () {
     Route::get('/', [\App\Http\Controllers\PostController::class, 'allPost']);
+    Route::get('/my-post', [\App\Http\Controllers\PostController::class, 'myPost']);
+    Route::get('/post-without-comments', [\App\Http\Controllers\PostController::class, 'postWithoutComments']);
+    Route::get('/most-view-posts', [\App\Http\Controllers\PostController::class, 'mostViewPosts']);
     Route::post('/', [\App\Http\Controllers\PostController::class, 'store']);
     Route::get('/{id}', [\App\Http\Controllers\PostController::class, 'show']);
     Route::put('/update/{id}', [\App\Http\Controllers\PostController::class, 'update']);

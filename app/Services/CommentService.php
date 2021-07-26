@@ -18,6 +18,8 @@ class CommentService implements CommentServiceInterface
 
     public function createComment(array $options)
     {
+        auth()->check() ? $options['user_id'] = auth()->user()->id : $options['user_id'] = 1;
+
         return $this->commentRepository->create($options);
     }
 }

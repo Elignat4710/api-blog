@@ -26,7 +26,6 @@ class CommentRequest extends FormRequest
         return [
             'body' => 'required',
             'post_id' => 'required|int',
-            'user_id' => 'required|int',
             'parent_id' => ''
         ];
     }

@@ -9,8 +9,10 @@ use App\Repository\Interfaces\CategoryRepositoryInterface;
 use App\Repository\Interfaces\CommentRepositoryInterface;
 use App\Repository\Interfaces\FileRepositoryInterface;
 use App\Repository\Interfaces\PostRepositoryInterface;
+use App\Repository\Interfaces\TagRepositoryInterface;
 use App\Repository\Interfaces\UserRepositoryInterface;
 use App\Repository\PostRepository;
+use App\Repository\TagRepository;
 use App\Repository\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -46,6 +48,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             CategoryRepositoryInterface::class,
             CategoryRepository::class
+        );
+
+        $this->app->bind(
+            TagRepositoryInterface::class,
+            TagRepository::class
         );
     }
 }

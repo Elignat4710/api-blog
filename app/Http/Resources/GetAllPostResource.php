@@ -22,6 +22,7 @@ class GetAllPostResource extends JsonResource
             'count_comments' => $this->comments->count(),
             'category_name' => $this->category->name,
             'user' => new UserResource($this->user),
+            'tags' => TagResource::collection($this->tags)
         ];
     }
 }

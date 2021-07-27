@@ -15,4 +15,6 @@ interface PostRepositoryInterface
     public function postsWithoutComments();
 
     public function mostViewPost();
+
+    public function atachTags(Post $post, array $tags);
 }

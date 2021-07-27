@@ -6,8 +6,10 @@ use App\Services\CommentService;
 use App\Services\Interfaces\CommentServiceInterface;
 use App\Services\Interfaces\PostServiceInterface;
 use App\Services\Interfaces\ProfileServiceInterface;
+use App\Services\Interfaces\TagServiceInterface;
 use App\Services\PostService;
 use App\Services\ProfileService;
+use App\Services\TagService;
 use Illuminate\Support\ServiceProvider;
 
 class ServiceRepositoryProvider extends ServiceProvider
@@ -32,6 +34,11 @@ class ServiceRepositoryProvider extends ServiceProvider
         $this->app->bind(
             CommentServiceInterface::class,
             CommentService::class
+        );
+
+        $this->app->bind(
+            TagServiceInterface::class,
+            TagService::class
         );
     }
 

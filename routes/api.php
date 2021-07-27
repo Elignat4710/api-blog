@@ -62,3 +62,10 @@ Route::group([
     Route::post('/create', [\App\Http\Controllers\CommentController::class, 'create']);
 });
 
+Route::group([
+    'prefix' => 'tag',
+    'middleware' => 'api'
+], function () {
+    Route::get('/search', [\App\Http\Controllers\TagController::class, 'search']);
+});
+

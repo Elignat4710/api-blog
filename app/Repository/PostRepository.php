@@ -44,4 +44,9 @@ class PostRepository extends AbstractRepository implements PostRepositoryInterfa
 
         return $this;
     }
+
+    public function atachTags(Post $post, array $tags)
+    {
+        return $post->tags()->sync($tags);
+    }
 }

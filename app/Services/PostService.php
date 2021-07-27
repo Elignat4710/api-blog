@@ -7,20 +7,24 @@ use App\Http\Resources\GetAllPostResource;
 use App\Http\Resources\PostResource;
 use App\Repository\Interfaces\CategoryRepositoryInterface;
 use App\Repository\Interfaces\PostRepositoryInterface;
+use App\Repository\Interfaces\TagRepositoryInterface;
 use App\Services\Interfaces\PostServiceInterface;
 
 class PostService implements PostServiceInterface
 {
     protected $postRepository;
     protected $categoryRepository;
+    protected $tagRepository;
 
     public function __construct(
         PostRepositoryInterface $postRepository,
-        CategoryRepositoryInterface $categoryRepository
+        CategoryRepositoryInterface $categoryRepository,
+        TagRepositoryInterface $tagRepository
     )
     {
         $this->postRepository = $postRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->tagRepository = $tagRepository;
     }
 
     public function getAllPosts(int $paginateCount)
@@ -59,7 +63,11 @@ class PostService implements PostServiceInterface
             'user_id' => $user_id
         ]);
 
-        return $this->postRepository->create($options);
+        $post = $this->postRepository->create($options);
+
+        $this->atachTags($options['tags'], $post);
+
+        return true;
     }
 
     public function showPost(int $id)
@@ -78,9 +86,23 @@ class PostService implements PostServiceInterface
             $category_id = $this->categoryRepository->firstOrCreate(['name' => $options['category_name']])->id;
             $post->fill(array_merge($options, ['category_id' => $category_id]));
 
-            return $this->postRepository->save($post);
+            $post = $this->postRepository->save($post);
+
+            $this->atachTags($options['tags'], $post);
+
+            return true;
         }
 
         return false;
+    }
+
+    private function atachTags(array $tags, $post)
+    {
+        $tagsArray = [];
+        foreach ($tags as $tag) {
+            $tagsArray[] = $this->tagRepository->firstOrCreate(['name' => $tag])->id;
+        }
+
+        $this->postRepository->atachTags($post, $tagsArray);
     }
 }
